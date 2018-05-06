@@ -1,7 +1,12 @@
 package org.anirudh.redquark.quarkchain.util;
 
+import java.security.Key;
 import java.security.MessageDigest;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
 import java.util.ArrayList;
+import java.util.Base64;
 
 import org.anirudh.redquark.quarkchain.App;
 import org.anirudh.redquark.quarkchain.model.Block;
@@ -93,13 +98,88 @@ public class StringUtil {
 			 * Check if hash is solved
 			 */
 			if (!currentBlock.getHash().substring(0, App.difficulty).equals(hashTarget)) {
-				
+
 				System.out.println("This block hasn't been mined");
-				
+
 				return false;
 			}
 		}
 
 		return true;
+	}
+
+	/**
+	 * This method encodes the key and returns
+	 * 
+	 * @param key
+	 * @return encoded key
+	 */
+	public static String getStringFromKey(Key key) {
+
+		/**
+		 * Encoded using the basic Base64 algorithm
+		 */
+		return Base64.getEncoder().encodeToString(key.getEncoded());
+	}
+
+	/**
+	 * Applies ECDSA Signature and returns the result ( as bytes ).
+	 * 
+	 * @param key
+	 * @param input
+	 * @return byte[]
+	 */
+	public static byte[] applyECDSASignature(PrivateKey key, String input) {
+
+		Signature dsa;
+
+		byte[] output = new byte[0];
+
+		try {
+
+			dsa = Signature.getInstance("ECDSA", "BC");
+
+			dsa.initSign(key);
+
+			byte[] strByte = input.getBytes();
+
+			dsa.update(strByte);
+
+			byte[] realSignature = dsa.sign();
+
+			output = realSignature;
+				
+		} catch (Exception e) {
+
+			throw new RuntimeException();
+		}
+
+		return output;
+	}
+
+	/**
+	 * Verifies a String signature
+	 * 
+	 * @param key
+	 * @param data
+	 * @param signature
+	 * @return boolean
+	 */
+	public static boolean verifyECDSASignatrue(PublicKey key, String data, byte[] signature) {
+
+		try {
+
+			Signature ecdsaVerify = Signature.getInstance("ECDSA", "BC");
+
+			ecdsaVerify.initVerify(key);
+
+			ecdsaVerify.verify(data.getBytes());
+
+			return ecdsaVerify.verify(signature);
+			
+		} catch (Exception e) {
+
+			throw new RuntimeException();
+		}
 	}
 }
