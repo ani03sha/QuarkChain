@@ -4,11 +4,11 @@ import java.security.Security;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.anirudh.redquark.quarkchain.model.Block;
-import org.anirudh.redquark.quarkchain.model.Transaction;
-import org.anirudh.redquark.quarkchain.model.Wallet;
+import org.anirudh.redquark.quarkchain.block.Block;
+import org.anirudh.redquark.quarkchain.transaction.Transaction;
 import org.anirudh.redquark.quarkchain.transaction.TransactionOutput;
 import org.anirudh.redquark.quarkchain.util.StringUtil;
+import org.anirudh.redquark.quarkchain.wallet.Wallet;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**

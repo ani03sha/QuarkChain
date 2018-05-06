@@ -1,11 +1,9 @@
-package org.anirudh.redquark.quarkchain.model;
+package org.anirudh.redquark.quarkchain.transaction;
 
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 
-import org.anirudh.redquark.quarkchain.transaction.TransactionInput;
-import org.anirudh.redquark.quarkchain.transaction.TransactionOutput;
 import org.anirudh.redquark.quarkchain.util.StringUtil;
 
 /**

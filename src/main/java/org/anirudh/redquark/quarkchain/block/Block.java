@@ -1,4 +1,4 @@
-package org.anirudh.redquark.quarkchain.model;
+package org.anirudh.redquark.quarkchain.block;
 
 import java.util.Date;
 

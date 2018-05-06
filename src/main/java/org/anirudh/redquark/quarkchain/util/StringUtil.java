@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 
 import org.anirudh.redquark.quarkchain.App;
-import org.anirudh.redquark.quarkchain.model.Block;
+import org.anirudh.redquark.quarkchain.block.Block;
 
 /**
  * Helper class

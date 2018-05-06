@@ -1,4 +1,4 @@
-package org.anirudh.redquark.quarkchain.model;
+package org.anirudh.redquark.quarkchain.wallet;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
