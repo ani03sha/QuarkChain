@@ -23,7 +23,7 @@ public class Transaction {
 	/**
 	 * This is also the hash of the transaction
 	 */
-	private String transactionId;
+	public String transactionId;
 	
 	/**
 	 * Sender's address/public key

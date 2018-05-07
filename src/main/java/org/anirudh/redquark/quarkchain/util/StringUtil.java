@@ -180,7 +180,9 @@ public class StringUtil {
 
 		} catch (Exception e) {
 
-			throw new RuntimeException();
+			e.printStackTrace();
+			
+			return false;
 		}
 	}
 

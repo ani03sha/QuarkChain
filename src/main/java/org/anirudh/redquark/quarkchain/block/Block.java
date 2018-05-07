@@ -14,12 +14,12 @@ public class Block {
 	/**
 	 * Hash of the current block
 	 */
-	private String hash;
+	public String hash;
 
 	/**
 	 * Hash of the previous block
 	 */
-	private String previousHash;
+	public String previousHash;
 
 	/**
 	 * Data that is stored in a block, generally transactions
