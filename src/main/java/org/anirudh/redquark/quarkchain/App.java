@@ -37,6 +37,11 @@ public class App {
 	 */
 	public static HashMap<String, TransactionOutput> UTXOs = new HashMap<>();
 
+	/**
+	 * Minimum transaction value
+	 */
+	public static float minimumTransaction = 0.1f;
+
 	public static void main(String[] args) {
 
 		/*

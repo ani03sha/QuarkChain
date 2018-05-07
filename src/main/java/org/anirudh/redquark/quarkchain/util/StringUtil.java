@@ -10,6 +10,7 @@ import java.util.Base64;
 
 import org.anirudh.redquark.quarkchain.App;
 import org.anirudh.redquark.quarkchain.block.Block;
+import org.anirudh.redquark.quarkchain.transaction.Transaction;
 
 /**
  * Helper class
@@ -148,7 +149,7 @@ public class StringUtil {
 			byte[] realSignature = dsa.sign();
 
 			output = realSignature;
-				
+
 		} catch (Exception e) {
 
 			throw new RuntimeException();
@@ -176,10 +177,59 @@ public class StringUtil {
 			ecdsaVerify.verify(data.getBytes());
 
 			return ecdsaVerify.verify(signature);
-			
+
 		} catch (Exception e) {
 
 			throw new RuntimeException();
 		}
+	}
+
+	/**
+	 * Tacks in array of transactions and returns a merkle root.
+	 * 
+	 * @param transactions
+	 * @return String
+	 */
+	public static String getMerkleRoot(ArrayList<Transaction> transactions) {
+
+		int count = transactions.size();
+
+		ArrayList<String> previousTreeLayer = new ArrayList<>();
+
+		for (Transaction transaction : transactions) {
+
+			previousTreeLayer.add(transaction.getTransactionId());
+		}
+
+		ArrayList<String> treeLayer = previousTreeLayer;
+
+		while (count > 1) {
+
+			treeLayer = new ArrayList<>();
+
+			for (int i = 1; i < previousTreeLayer.size(); i++) {
+
+				treeLayer.add(applySha256(previousTreeLayer.get(i - 1) + previousTreeLayer.get(i)));
+			}
+
+			count = treeLayer.size();
+
+			previousTreeLayer = treeLayer;
+		}
+
+		String merkleRoot = (treeLayer.size()) == 1 ? treeLayer.get(0) : "";
+
+		return merkleRoot;
+	}
+
+	/**
+	 * Returns difficulty string target, to compare to hash. eg difficulty of 5 will
+	 * return "00000"
+	 * 
+	 * @param difficulty
+	 * @return String
+	 */
+	public static String getDificultyString(int difficulty) {
+		return new String(new char[difficulty]).replace('\0', '0');
 	}
 }
