@@ -23,9 +23,10 @@ public class App {
 	public static ArrayList<Block> blockchain = new ArrayList<>();
 
 	/**
-	 * Difficulty
+	 * Difficulty - Increase or decrease the value of this parameter to see the
+	 * effect of computation power required to solve the transaction
 	 */
-	public static int difficulty = 1;
+	public static int difficulty = 5;
 
 	/**
 	 * Instances of Wallet
@@ -76,7 +77,9 @@ public class App {
 		genesis.addTransaction(genesisTransaction);
 		addBlock(genesis);
 
-		// testing
+		/**
+		 * Testing by creating some blocks
+		 */
 		Block block1 = new Block(genesis.hash);
 		System.out.println("\nWalletA's balance is: " + walletA.getBalance());
 		System.out.println("\nWalletA is Attempting to send funds (40) to WalletB...");
@@ -98,44 +101,81 @@ public class App {
 		System.out.println("\nWalletA's balance is: " + walletA.getBalance());
 		System.out.println("WalletB's balance is: " + walletB.getBalance());
 
+		/**
+		 * Checking if the blockchain is valid
+		 */
 		isChainValid();
 
 	}
 
+	/**
+	 * This method checks if the blockchain is valid in order to make sure someone
+	 * has not tampered it
+	 * 
+	 * @return {@link Boolean}
+	 */
 	public static boolean isChainValid() {
 
+		/**
+		 * Current block
+		 */
 		Block currentBlock;
+
+		/**
+		 * Previous block
+		 */
 		Block previousBlock;
+
+		/**
+		 * Getting the target string based on difficulty parameter
+		 */
 		String hashTarget = new String(new char[difficulty]).replace('\0', '0');
-		HashMap<String, TransactionOutput> tempUTXOs = new HashMap<String, TransactionOutput>(); // a temporary working
-																									// list of unspent
-																									// transactions at a
-																									// given block
-																									// state.
+
+		/**
+		 * A temporary working list of unspent transactions at a given block state.
+		 */
+		HashMap<String, TransactionOutput> tempUTXOs = new HashMap<String, TransactionOutput>();
+
+		/**
+		 * Adding the unspent transaction to the HashMap
+		 */
 		tempUTXOs.put(genesisTransaction.outputs.get(0).id, genesisTransaction.outputs.get(0));
 
-		// loop through blockchain to check hashes:
+		/**
+		 * Loop through blockchain to check hashes:
+		 */
 		for (int i = 1; i < blockchain.size(); i++) {
 
 			currentBlock = blockchain.get(i);
 			previousBlock = blockchain.get(i - 1);
-			// compare registered hash and calculated hash:
+
+			/**
+			 * Compare registered hash and calculated hash:
+			 */
 			if (!currentBlock.hash.equals(currentBlock.calculateHash())) {
 				System.out.println("#Current Hashes not equal");
 				return false;
 			}
-			// compare previous hash and registered previous hash
+
+			/**
+			 * Compare previous hash and registered previous hash
+			 */
 			if (!previousBlock.hash.equals(currentBlock.previousHash)) {
 				System.out.println("#Previous Hashes not equal");
 				return false;
 			}
-			// check if hash is solved
+
+			/**
+			 * Check if hash is solved
+			 */
 			if (!currentBlock.hash.substring(0, difficulty).equals(hashTarget)) {
 				System.out.println("#This block hasn't been mined");
 				return false;
 			}
 
-			// loop thru blockchains transactions:
+			/**
+			 * Loop through blockchains transactions:
+			 */
 			TransactionOutput tempOutput;
 			for (int t = 0; t < currentBlock.transactions.size(); t++) {
 				Transaction currentTransaction = currentBlock.transactions.get(t);

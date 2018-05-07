@@ -174,7 +174,7 @@ public class StringUtil {
 
 			ecdsaVerify.initVerify(key);
 
-			ecdsaVerify.verify(data.getBytes());
+			ecdsaVerify.update(data.getBytes());
 
 			return ecdsaVerify.verify(signature);
 
